@@ -1,0 +1,28 @@
+.publish {
+    // relative：方便以后加绝对定位的装饰元素，也顺手压住 quill 的层级问题
+    position: relative;
+
+    // 上传列表默认是 102px 的图片卡片，这里改成设计稿的 146px。
+    //
+    // 为什么要写这么长的一串 class？两个坑：
+    // 1. 上传按钮 .ant-upload-select 和 .ant-upload-list 是兄弟节点，
+    //    把按钮选择器套在 .ant-upload-list 里根本匹配不到（原笔记里就是这么写的）；
+    // 2. antd 内部的尺寸规则本身是 4~5 个 class 的选择器，
+    //    写 .publish .ant-upload-select 这种两级选择器优先级不够，会被它盖掉。
+    //
+    // （顺带记一下：antd v6 里列表项容器叫 list-item-container，v5 早期叫 picture-card-container）
+    .ant-upload-wrapper.ant-upload-picture-card-wrapper {
+        .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item-container,
+        .ant-upload.ant-upload-select {
+            width: 146px;
+            height: 146px;
+        }
+    }
+}
+
+.publish-quill {
+    // 编辑区太矮不好写文章，撑高一点
+    .ql-editor {
+        min-height: 300px;
+    }
+}

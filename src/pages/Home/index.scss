@@ -1,0 +1,60 @@
+.home {
+    // Layout 的 content 是竖向 flex 布局的一部分，撑满宽度卡片才会整齐
+    width: 100%;
+}
+
+.stat-card {
+    // 同一行内的卡片等高（Row 默认 align-items: stretch，这里把卡片撑满即可）
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+    &__body {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    &__icon {
+        display: flex;
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        color: #fff;
+        font-size: 26px;
+    }
+
+    // 数字放大加粗，一眼能看到重点
+    .ant-statistic-content {
+        font-size: 26px;
+        font-weight: 600;
+    }
+}
+
+.trend-card {
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+    &__chart {
+        position: relative;
+        // ECharts 的容器必须有明确高度，否则 canvas 高度为 0，图是看不见的
+        height: 380px;
+    }
+
+    &__canvas {
+        height: 100%;
+    }
+
+    // 数据加载中的遮罩层
+    &__mask {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(255, 255, 255, 0.6);
+    }
+}
