@@ -1,7 +1,9 @@
+html,
 body {
     margin: 0;
+    height: 100%;
+}
 
-    div {
-        color: blue;
-    }
+#root {
+    height: 100%;
 }

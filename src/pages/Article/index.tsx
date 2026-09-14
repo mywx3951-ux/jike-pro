@@ -1,4 +1,6 @@
-// 占位：Article 文章页（/article）
-export default function Article() {
-    return null
+// 内容管理（对应路由 /article）
+const Article = () => {
+    return <div>Article</div>
 }
+
+export default Article

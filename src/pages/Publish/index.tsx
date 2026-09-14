@@ -1,4 +1,6 @@
-// 占位：Publish 发布页（/publish）
-export default function Publish() {
-    return null
+// 发布文章（对应路由 /publish）
+const Publish = () => {
+    return <div>Publish</div>
 }
+
+export default Publish
