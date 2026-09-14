@@ -55,7 +55,9 @@ const GeekLayout = () => {
     // 组件挂载时自动请求一次用户信息
     // 依赖数组里放 dispatch：它的引用不会变，所以这个 effect 只会跑一次
     useEffect(() => {
-        dispatch(fetchUserInfo())
+        // 这里 catch 掉失败：token 失效（401）已由 request.ts 的拦截器统一处理，
+        // 不 catch 的话控制台会多出一条「未处理的 Promise 拒绝」红字
+        dispatch(fetchUserInfo()).catch(() => { })
     }, [dispatch])
     return (
         <Layout>
