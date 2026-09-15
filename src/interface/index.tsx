@@ -133,3 +133,17 @@ export interface ArticleFilterForm {
     // 只在选完两端后才会有值，所以可能为 null
     date?: [Dayjs | null, Dayjs | null] | null
 }
+
+// 文章详情（GET /mp/articles/:id 返回的 data）
+export interface ArticleDetail {
+    id: string
+    title: string
+    channel_id: number
+    content: string
+    cover: {
+        type: CoverType
+        images: string[]
+    }
+    // 发布时间，详情接口的字段名带下划线，和列表的 pubdate 不同
+    pub_date: string
+}

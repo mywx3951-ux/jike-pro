@@ -2,6 +2,8 @@
 
 一个基于 **React 19 + TypeScript + Vite** 的内容管理后台，使用 Redux Toolkit 管理全局状态、React Router 负责路由、Ant Design 提供 UI 组件。
 
+> 各模块的实现细节、接口联调结论、发现的坑和后续待办，都记在 [开发记录.md](./开发记录.md) 里，继续开发前先看它。
+
 ## 技术栈
 
 | 分类 | 技术 |
@@ -21,8 +23,8 @@
 - **登录鉴权**：登录成功后把 token 写入 Redux 与 localStorage，刷新页面登录态不丢失
 - **路由守卫**：未登录时访问受保护页面会自动跳转到登录页
 - **请求封装**：axios 实例统一配置 baseURL、超时时间，请求拦截器自动携带 token，响应拦截器统一抽取数据
-- **首页数据概览**：统计卡片 + ECharts 折线图展示文章发布趋势（ECharts 按需引入，图表实例由 `useECharts` 托管生命周期、随容器自适应）。数据目前来自 `src/apis/home.ts` 里的模拟数据，接口联调时把 `getStatistics` 换成 `http.get('/statistics')` 即可，页面无需改动
-- **发布文章**：面包屑 + 表单（标题 / 频道 / 富文本内容 / 封面），频道列表来自 `GET /channels`，富文本用 `react-quill-new`，封面支持单图、三图、无图三种类型（`Upload` 走 `/api/upload` 代理并手动携带 token），图片列表受控 + 用 ref 当仓库，切换类型时按需取图；提交走 `POST /mp/articles?draft=false`
+- **首页数据概览**：统计卡片 + ECharts 折线图展示文章发布趋势（ECharts 按需引入，图表实例由 `useECharts` 托管生命周期、随容器自适应）。数据已对接 `GET /statistics`；演示后端该接口固定返回 `data: null`，返回为空时自动回退到 `src/apis/home.ts` 里的模拟数据，页面无需改动
+- **发布 / 编辑文章**：面包屑 + 表单（标题 / 频道 / 富文本内容 / 封面），频道列表来自 `GET /channels`，富文本用 `react-quill-new`，封面支持单图、三图、无图三种类型（`Upload` 走 `/api/upload` 代理并手动携带 token），图片列表受控 + 用 ref 当仓库，切换类型时按需取图；新增走 `POST /mp/articles?draft=false`。带 `?id=xxx` 进入时自动拉取详情回填（`GET /mp/articles/:id`），提交改为 `PUT /mp/articles/:id?draft=false`，面包屑和按钮切换为「编辑文章 / 更新文章」，成功后跳回文章列表
 - **文章列表**：筛选区（状态 / 频道 / 日期区间）+ 表格 + 分页 + 删除（Popconfirm 二次确认）+ 编辑跳转。筛选条件和分页统一放在一个 `params` 对象里当单一数据源，参数一变就重新请求，所以筛选、翻页、删除后都只改它
 - **界面中文化**：`main.tsx` 用 `ConfigProvider locale={zhCN}` 处理 antd 组件内置文案（表格空数据、分页等），并设置 `dayjs.locale('zh-cn')`——日期面板的月份、星期取自 dayjs 语言包，只引 antd 的 locale 是不够的
 
@@ -52,6 +54,8 @@ npm run dev
 ```bash
 npm run build
 ```
+
+`vite.config.ts` 已设置 `base: './'`（资源按相对路径引用，部署到任意子目录不会 404），`npm run preview` 预览产物时同样走 `/api` 代理，方便本地验证打包后的接口链路。生产部署需要由 Nginx 反向代理 `/api`，并把所有路由 fallback 到 `index.html`。
 
 ### 代码检查
 
